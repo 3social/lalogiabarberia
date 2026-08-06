@@ -150,7 +150,251 @@
     updateCoverflow();
   }
 
+  /* kinetic grid — helper function */
+  function initKineticGrid(canvasId, containerId) {
+    var kineticCanvas = document.getElementById(canvasId);
+    if (!kineticCanvas) return;
+
+    var ctx = kineticCanvas.getContext('2d');
+    var mousePos = { x: -9999, y: -9999 };
+    var targetMousePos = { x: -9999, y: -9999 };
+    var ripples = [];
+    var rafId = null;
+
+    var CELL_SIZE = 55;
+    var INFLUENCE_RADIUS = 260;
+    var MAX_WARP = 24;
+    var DOT_SPACING = 28;
+    var LERP_SPEED = 0.08;
+
+    var LINE_BASE = { r: 255, g: 255, b: 255, a: 0.13 };
+    var NODE_BASE_RADIUS = 1.8;
+    var NODE_ACTIVE_RADIUS = 3.2;
+
+    var THEME = {
+      bg: '#0B0B0C',
+      lineActive: { r: 216, g: 30, b: 21, a: 0.9 },
+      nodeActive: { r: 216, g: 30, b: 21, a: 1.0 },
+      glow: '216,30,21',
+      ripple: '255,100,80'
+    };
+
+    function lerpN(a, b, t) {
+      return a + (b - a) * t;
+    }
+
+    function lerpColor(base, active, t) {
+      var r = Math.round(lerpN(base.r, active.r, t));
+      var g = Math.round(lerpN(base.g, active.g, t));
+      var b = Math.round(lerpN(base.b, active.b, t));
+      var a = lerpN(base.a, active.a, t);
+      return 'rgba(' + r + ',' + g + ',' + b + ',' + a.toFixed(3) + ')';
+    }
+
+    function setCanvasSize() {
+      var container = document.getElementById(containerId);
+      if (!container) return;
+      var rect = container.getBoundingClientRect();
+      kineticCanvas.width = rect.width;
+      kineticCanvas.height = rect.height;
+    }
+
+    function getWarpedPoint(gx, gy, col, row, mouse, ripples, cols, rows) {
+      var edgeMargin = 1.5;
+      var colPin = Math.min(col / edgeMargin, (cols - 1 - col) / edgeMargin, 1);
+      var rowPin = Math.min(row / edgeMargin, (rows - 1 - row) / edgeMargin, 1);
+      var pinFactor = colPin * colPin * rowPin * rowPin;
+
+      var dx = gx - mouse.x;
+      var dy = gy - mouse.y;
+      var dist = Math.sqrt(dx * dx + dy * dy);
+      var proximity = Math.max(0, 1 - dist / INFLUENCE_RADIUS) * pinFactor;
+
+      var rx = 0, ry = 0;
+      for (var i = 0; i < ripples.length; i++) {
+        var r = ripples[i];
+        var rdx = gx - r.x;
+        var rdy = gy - r.y;
+        var rdist = Math.sqrt(rdx * rdx + rdy * rdy);
+        var waveWidth = 55;
+        var diff = rdist - r.radius;
+        if (Math.abs(diff) < waveWidth) {
+          var strength = (1 - Math.abs(diff) / waveWidth) * r.opacity * 18 * pinFactor;
+          var angle = Math.atan2(rdy, rdx);
+          var sign = diff < 0 ? -1 : 1;
+          rx += Math.cos(angle) * strength * sign * -1;
+          ry += Math.sin(angle) * strength * sign * -1;
+        }
+      }
+
+      if (dist < INFLUENCE_RADIUS && dist > 0 && pinFactor > 0) {
+        var t = dist / INFLUENCE_RADIUS;
+        var eased = t < 0.01 ? 0 : (1 - t) * (1 - t) * Math.min(1, dist / 60);
+        var warpAmt = eased * MAX_WARP * pinFactor;
+        var angle = Math.atan2(dy, dx);
+        return {
+          pt: {
+            x: gx - Math.cos(angle) * warpAmt + rx,
+            y: gy - Math.sin(angle) * warpAmt + ry
+          },
+          proximity: proximity
+        };
+      }
+
+      return { pt: { x: gx + rx, y: gy + ry }, proximity: proximity };
+    }
+
+    function animate() {
+      var w = kineticCanvas.width;
+      var h = kineticCanvas.height;
+
+      mousePos.x = lerpN(mousePos.x, targetMousePos.x, LERP_SPEED);
+      mousePos.y = lerpN(mousePos.y, targetMousePos.y, LERP_SPEED);
+
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = THEME.bg;
+      ctx.fillRect(0, 0, w, h);
+
+      ctx.fillStyle = 'rgba(255,255,255,0.05)';
+      for (var x = DOT_SPACING / 2; x < w; x += DOT_SPACING) {
+        for (var y = DOT_SPACING / 2; y < h; y += DOT_SPACING) {
+          ctx.beginPath();
+          ctx.arc(x, y, 0.7, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      var now = performance.now();
+      for (var i = ripples.length - 1; i >= 0; i--) {
+        var r = ripples[i];
+        var age = (now - r.born) / 1000;
+        r.radius = Math.max(0, age * 400);
+        r.opacity = Math.max(0, 1 - age * 1.2);
+        if (r.opacity <= 0) ripples.splice(i, 1);
+      }
+
+      var cols = Math.max(2, Math.ceil(w / CELL_SIZE)) + 1;
+      var rows = Math.max(2, Math.ceil(h / CELL_SIZE)) + 1;
+      var cellW = w / (cols - 1);
+      var cellH = h / (rows - 1);
+
+      var pts = [];
+      var prox = [];
+
+      for (var row = 0; row < rows; row++) {
+        pts[row] = [];
+        prox[row] = [];
+        for (var col = 0; col < cols; col++) {
+          var warp = getWarpedPoint(col * cellW, row * cellH, col, row, mousePos, ripples, cols, rows);
+          pts[row][col] = warp.pt;
+          prox[row][col] = warp.proximity;
+        }
+      }
+
+      var drawSeg = function(p1, p2, pr1, pr2) {
+        var avg = (pr1 + pr2) / 2;
+        var t = avg * avg * (3 - 2 * avg);
+        ctx.beginPath();
+        ctx.moveTo(p1.x, p1.y);
+        ctx.lineTo(p2.x, p2.y);
+        ctx.strokeStyle = lerpColor(LINE_BASE, THEME.lineActive, t);
+        ctx.lineWidth = lerpN(0.8, 1.5, t);
+        ctx.stroke();
+      };
+
+      ctx.lineCap = 'butt';
+
+      for (var row = 0; row < rows; row++) {
+        for (var col = 0; col < cols - 1; col++) {
+          drawSeg(pts[row][col], pts[row][col + 1], prox[row][col], prox[row][col + 1]);
+        }
+      }
+
+      for (var col = 0; col < cols; col++) {
+        for (var row = 0; row < rows - 1; row++) {
+          drawSeg(pts[row][col], pts[row + 1][col], prox[row][col], prox[row + 1][col]);
+        }
+      }
+
+      for (var row = 0; row < rows; row++) {
+        for (var col = 0; col < cols; col++) {
+          var p = pts[row][col];
+          var pr = prox[row][col];
+          var t = pr * pr * (3 - 2 * pr);
+          var r = lerpN(NODE_BASE_RADIUS, NODE_ACTIVE_RADIUS, t);
+
+          if (t > 0.3) {
+            var glowR = r + lerpN(0, 6, (t - 0.3) / 0.7);
+            var grd = ctx.createRadialGradient(p.x, p.y, r * 0.5, p.x, p.y, glowR);
+            grd.addColorStop(0, 'rgba(' + THEME.glow + ',' + (t * 0.3).toFixed(3) + ')');
+            grd.addColorStop(1, 'rgba(' + THEME.glow + ',0)');
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, glowR, 0, Math.PI * 2);
+            ctx.fillStyle = grd;
+            ctx.fill();
+          }
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+          ctx.fillStyle = lerpColor({ r: 255, g: 255, b: 255, a: 0.2 }, THEME.nodeActive, t);
+          ctx.fill();
+        }
+      }
+
+      for (var i = 0; i < ripples.length; i++) {
+        var r = ripples[i];
+        var safeRadius = Math.max(0, r.radius);
+        ctx.beginPath();
+        ctx.arc(r.x, r.y, safeRadius, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(' + THEME.ripple + ',' + (r.opacity * 0.28).toFixed(3) + ')';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+      }
+
+      rafId = requestAnimationFrame(animate);
+    }
+
+    setCanvasSize();
+    var resizeObserver = new ResizeObserver(function() { setCanvasSize(); });
+    var container = document.getElementById(containerId);
+    if (container) resizeObserver.observe(container);
+
+    document.addEventListener('mousemove', function(e) {
+      var container = document.getElementById(containerId);
+      if (!container) return;
+      var rect = container.getBoundingClientRect();
+      targetMousePos = {
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top
+      };
+    });
+
+    document.addEventListener('click', function(e) {
+      var container = document.getElementById(containerId);
+      if (!container) return;
+      var rect = container.getBoundingClientRect();
+      var clickX = e.clientX - rect.left;
+      var clickY = e.clientY - rect.top;
+      if (clickX >= 0 && clickX <= rect.width && clickY >= 0 && clickY <= rect.height) {
+        ripples.push({
+          x: clickX,
+          y: clickY,
+          radius: 0,
+          opacity: 1,
+          born: performance.now()
+        });
+      }
+    });
+
+    animate();
+  }
+
   /* kinetic grid footer */
+  initKineticGrid('kinetic-grid-canvas', 'pie-footer');
+
+  /* kinetic grid header */
+  initKineticGrid('kinetic-grid-header', 'barra');
+
   var kineticCanvas = document.getElementById('kinetic-grid-canvas');
   if (kineticCanvas) {
     var ctx = kineticCanvas.getContext('2d');
