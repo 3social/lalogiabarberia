@@ -1,0 +1,13 @@
+{
+  "name": "La Logia Barbería",
+  "short_name": "La Logia",
+  "description": "Barbería clásica en San Joaquín de Flores, Heredia.",
+  "lang": "es-CR",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0B0B0C",
+  "theme_color": "#0B0B0C",
+  "icons": [
+    { "src": "/assets/img/favicon.png", "sizes": "256x256", "type": "image/png", "purpose": "any" }
+  ]
+}
