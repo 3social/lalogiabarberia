@@ -198,18 +198,41 @@
   <div class="galeria__in">
     <p class="cejilla cejilla--osc">La galería</p>
     <h2 class="titulo">Nuestro espacio</h2>
-    <div class="galeria__carrusel" role="region" aria-label="Carrusel de imágenes">
-      <div class="galeria__slide">
-        <img src="assets/img/ima1.webp" alt="Interior de La Logia Barbería" width="800" height="600" loading="lazy" decoding="async">
+
+    <div class="coverflow" role="region" aria-roledescription="carousel" aria-label="Carrusel de fotos">
+      <div class="coverflow__frame" tabindex="0">
+        <div class="coverflow__track">
+          <div class="coverflow__slide" role="group" aria-roledescription="slide" aria-label="1 de 4">
+            <img src="assets/img/ima1.webp" alt="Interior de La Logia Barbería" loading="lazy" decoding="async">
+          </div>
+          <div class="coverflow__slide" role="group" aria-roledescription="slide" aria-label="2 de 4">
+            <img src="assets/img/ima2.jpg" alt="Silla de barbería La Logia" loading="lazy" decoding="async">
+          </div>
+          <div class="coverflow__slide" role="group" aria-roledescription="slide" aria-label="3 de 4">
+            <img src="assets/img/ima3.webp" alt="Detalles del ambiente" loading="lazy" decoding="async">
+          </div>
+          <div class="coverflow__slide" role="group" aria-roledescription="slide" aria-label="4 de 4">
+            <img src="assets/img/ima4.jpg" alt="Vista del local" loading="lazy" decoding="async">
+          </div>
+        </div>
       </div>
-      <div class="galeria__slide">
-        <img src="assets/img/ima2.jpg" alt="Silla de barbería La Logia" width="800" height="600" loading="lazy" decoding="async">
-      </div>
-      <div class="galeria__slide">
-        <img src="assets/img/ima3.webp" alt="Detalles del ambiente" width="800" height="600" loading="lazy" decoding="async">
-      </div>
-      <div class="galeria__slide">
-        <img src="assets/img/ima4.jpg" alt="Vista del local" width="800" height="600" loading="lazy" decoding="async">
+
+      <button class="coverflow__nav coverflow__nav--prev" type="button" aria-label="Imagen anterior">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+      <button class="coverflow__nav coverflow__nav--next" type="button" aria-label="Imagen siguiente">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+
+      <div class="coverflow__pagination" role="tablist">
+        <button class="coverflow__dot coverflow__dot--active" role="tab" aria-selected="true" aria-label="Ir a imagen 1"></button>
+        <button class="coverflow__dot" role="tab" aria-selected="false" aria-label="Ir a imagen 2"></button>
+        <button class="coverflow__dot" role="tab" aria-selected="false" aria-label="Ir a imagen 3"></button>
+        <button class="coverflow__dot" role="tab" aria-selected="false" aria-label="Ir a imagen 4"></button>
       </div>
     </div>
   </div>
