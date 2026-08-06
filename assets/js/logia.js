@@ -18,9 +18,10 @@
   }
 
   /* revelado por secciones */
-  var conRevelado = document.querySelectorAll('.portada, .junta, .casa, .carta, .rito, .visita, .cierre');
+  var conRevelado = document.querySelectorAll('.portada, .junta, .casa, .carta, .rito, .galeria, .resenas, .visita, .cierre');
   if (!suave || !('IntersectionObserver' in window)) {
     conRevelado.forEach(function (s) { s.classList.add('is-in'); });
+    document.querySelectorAll('.reveal').forEach(function (e) { e.classList.add('is-in'); });
     return;
   }
   var ojo = new IntersectionObserver(function (entradas) {
@@ -29,4 +30,29 @@
     });
   }, { threshold: 0.12 });
   conRevelado.forEach(function (s) { ojo.observe(s); });
+
+  /* carrusel fluido */
+  var carrusel = document.querySelector('.galeria__carrusel');
+  if (carrusel) {
+    var esScrollable = carrusel.scrollWidth > carrusel.clientWidth;
+    if (esScrollable) {
+      carrusel.style.cursor = 'grab';
+      carrusel.addEventListener('mousedown', function (e) {
+        var inicio = e.pageX - carrusel.offsetLeft;
+        var scroll = carrusel.scrollLeft;
+        carrusel.style.cursor = 'grabbing';
+        var mover = function (m) {
+          var x = m.pageX - carrusel.offsetLeft;
+          carrusel.scrollLeft = scroll - (x - inicio);
+        };
+        var soltar = function () {
+          carrusel.style.cursor = 'grab';
+          document.removeEventListener('mousemove', mover);
+          document.removeEventListener('mouseup', soltar);
+        };
+        document.addEventListener('mousemove', mover);
+        document.addEventListener('mouseup', soltar);
+      });
+    }
+  }
 })();
