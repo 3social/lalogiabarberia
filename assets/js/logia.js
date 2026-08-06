@@ -398,6 +398,9 @@
   /* kinetic grid portada */
   initKineticGrid('kinetic-grid-portada', 'portada-section');
 
+  /* kinetic grid cierre */
+  initKineticGrid('kinetic-grid-cierre', 'cierre-section');
+
   var kineticCanvas = document.getElementById('kinetic-grid-canvas');
   if (kineticCanvas) {
     var ctx = kineticCanvas.getContext('2d');

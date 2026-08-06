@@ -408,12 +408,21 @@ a{ color:inherit; }
 /* ── cierre ───────────────────────────────────────────────────────────── */
 
 .cierre{
+  position:relative;
   background:var(--tinta);
   color:var(--hueso);
   padding:var(--aire) var(--gutter);
   text-align:center;
+  overflow:hidden;
 }
-.cierre__in{ max-width:38rem; margin-inline:auto; }
+
+.cierre__bg{
+  position:absolute; inset:0; display:block;
+  width:100%; height:100%; z-index:0;
+  opacity:.4;
+}
+
+.cierre__in{ position:relative; z-index:1; max-width:38rem; margin-inline:auto; }
 .cierre img{ margin:0 auto 2rem; width:clamp(84px,10vw,120px); opacity:.92; }
 .cierre__titulo{
   font-family:var(--display); font-weight:400;
