@@ -395,6 +395,9 @@
   /* kinetic grid header */
   initKineticGrid('kinetic-grid-header', 'barra');
 
+  /* kinetic grid portada */
+  initKineticGrid('kinetic-grid-portada', 'portada-section');
+
   var kineticCanvas = document.getElementById('kinetic-grid-canvas');
   if (kineticCanvas) {
     var ctx = kineticCanvas.getContext('2d');

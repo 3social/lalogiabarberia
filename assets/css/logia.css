@@ -179,17 +179,25 @@ a{ color:inherit; }
   text-align:center;
   overflow:hidden;
 }
+
+.portada__bg{
+  position:absolute; inset:0;
+  display:block; width:100%; height:100%;
+  z-index:0; opacity:1;
+}
+
 /* filete doble estilo diploma */
 .portada__cerco{
   position:absolute; inset:clamp(.9rem,2.2vw,1.9rem);
   border:1px solid rgba(176,141,79,.30);
   pointer-events:none;
+  z-index:1;
 }
 .portada__cerco::after{
   content:""; position:absolute; inset:5px;
   border:1px solid rgba(176,141,79,.14);
 }
-.portada__in{ position:relative; max-width:44rem; }
+.portada__in{ position:relative; z-index:2; max-width:44rem; }
 
 .portada__logo{
   width:clamp(190px,26vw,300px);
