@@ -682,6 +682,47 @@ a{ color:inherit; }
   .resena__encabezado{ flex-direction:column; }
 }
 
+/* ── páginas legales ──────────────────────────────────────────────────── */
+
+.legal{
+  background:var(--hueso);
+  padding:calc(var(--aire) + 4rem) var(--gutter) var(--aire);
+}
+.legal__in{ max-width:46rem; margin-inline:auto; }
+
+.legal__titulo{
+  font-family:var(--display); font-weight:900;
+  font-size:clamp(2.1rem,1.4rem + 3vw,3.4rem);
+  line-height:1.05; letter-spacing:-.01em;
+  margin:.4rem 0 .75rem;
+}
+.legal__fecha{
+  margin:0 0 3rem; color:var(--humo);
+  font-size:.72rem; letter-spacing:.18em; text-transform:uppercase;
+}
+
+.legal h2{
+  font-family:var(--lapida); font-weight:600;
+  font-size:1.02rem; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--rojo-hondo);
+  margin:3rem 0 .9rem; padding-top:1.4rem;
+  border-top:1px solid rgba(11,11,12,.14);
+}
+.legal h3{
+  font-family:var(--display); font-weight:700;
+  font-size:1.2rem; line-height:1.2; margin:1.8rem 0 .5rem;
+}
+.legal p,
+.legal li{ color:var(--humo-osc); }
+.legal p{ margin:0 0 1rem; }
+.legal ul{ margin:0 0 1rem; padding-left:1.15rem; }
+.legal li{ margin-bottom:.5rem; }
+.legal strong{ color:var(--tinta); font-weight:600; }
+.legal a{ color:var(--rojo-hondo); text-decoration:underline; text-underline-offset:2px; }
+.legal a:hover{ color:var(--rojo); }
+
+.legal__vuelta{ margin-top:3.5rem; }
+
 /* ── pie ──────────────────────────────────────────────────────────────── */
 
 .pie{
@@ -706,6 +747,17 @@ a{ color:inherit; }
 .pie p{ margin:0; }
 .pie a{ color:var(--laton); text-decoration:none; }
 .pie a:hover{ text-decoration:underline; }
+
+.pie__legal{
+  position:relative; z-index:1;
+  max-width:var(--ancho); margin:0 auto 1.1rem;
+  padding-bottom:1.1rem;
+  border-bottom:1px solid rgba(176,141,79,.18);
+  display:flex; flex-wrap:wrap; align-items:center; gap:.5rem 1.5rem;
+}
+.pie__legal a{ color:rgba(232,225,211,.72); }
+.pie__legal a:hover{ color:var(--laton); }
+.pie__razon{ color:var(--humo); }
 
 /* ── barra de reserva en móvil ────────────────────────────────────────── */
 

@@ -307,6 +307,10 @@
           <dd><a href="tel:+50672705262">+506 7270 5262</a></dd>
         </div>
         <div>
+          <dt>Correo</dt>
+          <dd><a href="mailto:contacto@lalogiabarberia.com">contacto@lalogiabarberia.com</a></dd>
+        </div>
+        <div>
           <dt>Horario</dt>
           <!-- Al confirmar el horario con el cliente, reemplace esta línea por los días y horas reales
                y actualice también "openingHoursSpecification" en el JSON-LD del pie de página. -->
@@ -347,8 +351,12 @@
 
 <footer class="pie" id="pie-footer">
   <canvas id="kinetic-grid-canvas" class="pie__bg"></canvas>
+  <nav class="pie__legal" aria-label="Enlaces legales">
+    <a href="privacidad.html">Política de privacidad</a>
+    <a href="terminos.html">Términos y condiciones</a>
+  </nav>
   <div class="pie__in">
-    <p>© <span id="anio">2026</span> La Logia Barbería · San Joaquín de Flores, Heredia, Costa Rica</p>
+    <p>© <span id="anio">2026</span> La Logia Barbería · <span class="pie__razon">Ana Lidieth Padilla Mora</span> · San Joaquín de Flores, Heredia, Costa Rica</p>
     <p class="pie__credito">Sitio por <a href="https://www.flamiagroup.com" target="_blank" rel="noopener">FLAMIA</a></p>
   </div>
 </footer>
@@ -364,11 +372,13 @@
   "@type": "HairSalon",
   "@id": "https://lalogiabarberia.com/#barberia",
   "name": "La Logia Barbería",
+  "legalName": "Ana Lidieth Padilla Mora",
   "description": "Barbería clásica de ambiente familiar en San Joaquín de Flores, Heredia, Costa Rica.",
   "url": "https://lalogiabarberia.com/",
   "logo": "https://lalogiabarberia.com/assets/img/logo-512.png",
   "image": "https://lalogiabarberia.com/assets/img/og-la-logia.jpg",
   "telephone": "+506 7270 5262",
+  "email": "contacto@lalogiabarberia.com",
   "priceRange": "$",
   "foundingDate": "2020",
   "currenciesAccepted": "CRC",
@@ -388,6 +398,7 @@
     "@type": "ContactPoint",
     "contactType": "Customer Service",
     "telephone": "+506 7270 5262",
+    "email": "contacto@lalogiabarberia.com",
     "areaServed": "CR"
   },
   "geo": {
