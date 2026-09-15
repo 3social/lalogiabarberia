@@ -59,6 +59,7 @@ a{ color:inherit; }
 
 .cejilla{
   font-family:var(--lapida);
+  font-weight:400;
   font-size:.7rem;
   letter-spacing:.28em;
   text-transform:uppercase;
