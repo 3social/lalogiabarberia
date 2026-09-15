@@ -59,6 +59,7 @@ a{ color:inherit; }
 
 .cejilla{
   font-family:var(--lapida);
+  font-weight:400;
   font-size:.7rem;
   letter-spacing:.28em;
   text-transform:uppercase;
@@ -290,7 +291,7 @@ a{ color:inherit; }
 .casa__in{ max-width:var(--ancho); margin-inline:auto; }
 .casa__cols{
   display:grid; gap:2rem clamp(2rem,5vw,4.5rem);
-  grid-template-columns:repeat(auto-fit,minmax(19rem,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(min(19rem,100%),1fr));
   max-width:56rem;
 }
 .casa__texto{
@@ -314,7 +315,7 @@ a{ color:inherit; }
 .carta__lista{
   list-style:none; margin:0 0 3rem; padding:0;
   display:grid; gap:0;
-  grid-template-columns:repeat(auto-fit,minmax(17.5rem,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(min(17.5rem,100%),1fr));
   border-top:1px solid rgba(11,11,12,.14);
 }
 .carta__lista li{
@@ -346,7 +347,7 @@ a{ color:inherit; }
 .rito__pasos{
   list-style:none; margin:0 0 3.25rem; padding:0;
   display:grid; gap:clamp(2.5rem,5vw,3.5rem);
-  grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(min(15rem,100%),1fr));
   text-align:left;
 }
 .rito__pasos li{
@@ -370,7 +371,7 @@ a{ color:inherit; }
 .visita__in{
   max-width:var(--ancho); margin-inline:auto;
   display:grid; gap:clamp(2.5rem,5vw,4rem);
-  grid-template-columns:repeat(auto-fit,minmax(20rem,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(min(20rem,100%),1fr));
   align-items:start;
 }
 .ficha{ margin:0 0 2.5rem; display:grid; gap:1.4rem; }
@@ -435,6 +436,7 @@ a{ color:inherit; }
 
 .galeria{
   background:var(--hueso-2); padding:var(--aire) var(--gutter);
+  overflow:hidden; /* las fotos laterales del carrusel 3D no deben ensanchar la página */
 }
 .galeria__in{
   max-width:var(--ancho); margin-inline:auto;
@@ -633,54 +635,34 @@ a{ color:inherit; }
 }
 .resenas .cejilla{ color:var(--laton); }
 .resenas .titulo{ color:var(--hueso); }
-.resenas__grid{
-  display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:2rem;
-  margin-top:3rem;
+.calificacion{
+  display:flex; flex-wrap:wrap; align-items:baseline; gap:.5rem 1.25rem;
+  margin:0 0 3rem; padding-bottom:2rem;
+  border-bottom:1px solid rgba(176,141,79,.2);
 }
-.resena{
-  background:rgba(176,141,79,.08); padding:2.5rem 2rem; border-radius:8px;
-  border-left:4px solid var(--rojo);
-  box-shadow:0 4px 12px rgba(0,0,0,.3);
-  opacity:1; transform:translateY(0); visibility:visible;
+.calificacion__nota{
+  margin:0; font-family:var(--display); font-weight:700;
+  font-size:clamp(3.5rem,2.5rem + 4vw,5.5rem); line-height:1; color:var(--hueso);
 }
-.resena__encabezado{
-  display:flex; justify-content:space-between; align-items:flex-start; gap:1rem;
-  margin-bottom:1.5rem;
-  padding-bottom:1rem; border-bottom:1px solid rgba(176,141,79,.2);
+.calificacion__estrellas{ color:var(--laton); font-size:1.4rem; letter-spacing:.1em; }
+.calificacion__total{
+  margin:0; color:var(--humo);
+  font-size:.8rem; letter-spacing:.18em; text-transform:uppercase;
 }
-.resena__autor{
-  flex:1;
+.resenas__sub{
+  font-family:var(--lapida); font-weight:600;
+  font-size:.8rem; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--laton); margin:0 0 1.25rem;
 }
-.resena__nombre{
-  margin:0; font-weight:700; font-size:1.1rem;
-  color:var(--hueso);
+.menciones{
+  list-style:none; margin:0 0 3rem; padding:0;
+  display:flex; flex-wrap:wrap; gap:.6rem;
 }
-.resena__fecha{
-  margin:0.4rem 0 0; font-size:.8rem; color:var(--humo);
-  text-transform:uppercase; letter-spacing:.05em;
+.menciones li{
+  padding:.55rem 1rem; border:1px solid rgba(176,141,79,.35); border-radius:999px;
+  color:var(--hueso); font-size:.9rem;
 }
-.resena__estrellas{
-  color:var(--laton); font-size:1rem; letter-spacing:.08em;
-  flex-shrink:0; font-weight:700;
-}
-.resena__texto{
-  margin:0 0 1.5rem; color:var(--hueso); line-height:1.7;
-  font-size:.95rem; font-style:italic;
-}
-.resena__fuente{
-  display:inline-block; font-size:.75rem;
-  color:var(--laton); text-decoration:none;
-  border-bottom:1px solid var(--laton); padding-bottom:3px;
-  transition:all .3s ease; text-transform:uppercase; letter-spacing:.05em;
-}
-.resena__fuente:hover{
-  color:var(--rojo); border-bottom-color:var(--rojo); transform:translateX(2px);
-}
-@media (max-width:760px){
-  .resenas__grid{ grid-template-columns:1fr; gap:1.5rem; }
-  .resena{ padding:2rem 1.5rem; }
-  .resena__encabezado{ flex-direction:column; }
-}
+.resenas__accion{ margin:0; }
 
 /* ── páginas legales ──────────────────────────────────────────────────── */
 

@@ -31,12 +31,11 @@
 - ✅ Nombre: "La Logia Barbería"
 - ✅ Categoría Principal: "Barbería"
 - ✅ Categoría Secundaria: "Salon de peluquería"
-- ✅ Dirección: "San Joaquín de Flores, Heredia, Costa Rica (frente Torre Sol)"
+- ✅ Dirección: "San Joaquín de Flores, Heredia, Costa Rica, frente al condominio Torre Sol" (idéntica al sitio y a Meta; no usar la de Lonchoz Pizza)
 - ✅ Teléfono: +506 7270 5262
 - ✅ Sitio web: https://lalogiabarberia.com
 - ✅ Horario: 
-  - Lunes-Viernes: 9:00 AM - 6:00 PM
-  - Sábado: 8:00 AM - 5:00 PM
+  - Lunes a sábado: 9:00 AM - 8:00 PM
   - Domingo: 9:00 AM - 3:00 PM
 
 **3. Información adicional RECOMENDADA**
