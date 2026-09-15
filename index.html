@@ -313,9 +313,8 @@
         </div>
         <div>
           <dt>Horario</dt>
-          <!-- Al confirmar el horario con el cliente, reemplace esta línea por los días y horas reales
-               y actualice también "openingHoursSpecification" en el JSON-LD del pie de página. -->
-          <dd>Los espacios libres de hoy y de toda la semana se ven en la agenda en línea.</dd>
+          <dd>Lunes a sábado: 9:00 a. m. a 8:00 p. m.<br>
+              Domingo: 9:00 a. m. a 3:00 p. m.</dd>
         </div>
       </dl>
 
@@ -402,6 +401,7 @@
     "email": "contacto@lalogiabarberia.com",
     "areaServed": "CR"
   },
+  "hasMap": "https://www.google.com/maps/search/?api=1&query=La+Logia+Barber%C3%ADa+San+Joaqu%C3%ADn+de+Flores+Heredia",
   "geo": {
     "@type": "GeoCoordinates",
     "latitude": "10.0356",
@@ -429,15 +429,9 @@
   "openingHoursSpecification": [
     {
       "@type": "OpeningHoursSpecification",
-      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
       "opens": "09:00",
-      "closes": "18:00"
-    },
-    {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": "Saturday",
-      "opens": "08:00",
-      "closes": "17:00"
+      "closes": "20:00"
     },
     {
       "@type": "OpeningHoursSpecification",

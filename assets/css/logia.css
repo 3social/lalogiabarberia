@@ -291,7 +291,7 @@ a{ color:inherit; }
 .casa__in{ max-width:var(--ancho); margin-inline:auto; }
 .casa__cols{
   display:grid; gap:2rem clamp(2rem,5vw,4.5rem);
-  grid-template-columns:repeat(auto-fit,minmax(19rem,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(min(19rem,100%),1fr));
   max-width:56rem;
 }
 .casa__texto{
@@ -315,7 +315,7 @@ a{ color:inherit; }
 .carta__lista{
   list-style:none; margin:0 0 3rem; padding:0;
   display:grid; gap:0;
-  grid-template-columns:repeat(auto-fit,minmax(17.5rem,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(min(17.5rem,100%),1fr));
   border-top:1px solid rgba(11,11,12,.14);
 }
 .carta__lista li{
@@ -347,7 +347,7 @@ a{ color:inherit; }
 .rito__pasos{
   list-style:none; margin:0 0 3.25rem; padding:0;
   display:grid; gap:clamp(2.5rem,5vw,3.5rem);
-  grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(min(15rem,100%),1fr));
   text-align:left;
 }
 .rito__pasos li{
@@ -371,7 +371,7 @@ a{ color:inherit; }
 .visita__in{
   max-width:var(--ancho); margin-inline:auto;
   display:grid; gap:clamp(2.5rem,5vw,4rem);
-  grid-template-columns:repeat(auto-fit,minmax(20rem,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(min(20rem,100%),1fr));
   align-items:start;
 }
 .ficha{ margin:0 0 2.5rem; display:grid; gap:1.4rem; }
@@ -436,6 +436,7 @@ a{ color:inherit; }
 
 .galeria{
   background:var(--hueso-2); padding:var(--aire) var(--gutter);
+  overflow:hidden; /* las fotos laterales del carrusel 3D no deben ensanchar la página */
 }
 .galeria__in{
   max-width:var(--ancho); margin-inline:auto;
@@ -635,7 +636,7 @@ a{ color:inherit; }
 .resenas .cejilla{ color:var(--laton); }
 .resenas .titulo{ color:var(--hueso); }
 .resenas__grid{
-  display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:2rem;
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(min(300px,100%), 1fr)); gap:2rem;
   margin-top:3rem;
 }
 .resena{
